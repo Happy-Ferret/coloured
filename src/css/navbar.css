@@ -1,0 +1,87 @@
+.navbar {
+  width: 100vw;
+  height: 36px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-button {
+  font-family: 'ion';
+  float: left;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: default;
+  margin: 3px;
+  border-radius: 100%;
+  transition: background-color 150ms ease;
+}
+
+.navbar-button:hover {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-urlbox {
+  display: inline-block;
+  float: left;
+  width: calc(100vw - 12px - 5 * 36px); /* 5 buttons and margings */
+  border-radius: 1000px;
+  background-image: linear-gradient(to right, rgba(0,0,0,0.43), rgba(71,42,42,0) 50%);
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  margin: 6px;
+  box-sizing: border-box; /* useful? */
+  position: relative;
+}
+
+.navbar-urlbox.input-focused {
+  box-shadow: inset 0 0 0 2px #FDF7E4;
+}
+
+.navbar-urlbox-input,
+.navbar-urlbox-prettyurl {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.navbar-urlbox:not(.input-focused) > .navbar-urlbox-input,
+.navbar-urlbox.input-focused > .navbar-urlbox-prettyurl {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.navbar-urlbox-input {
+  border-width: 0;
+  -moz-appearance: none;
+  padding: 0 0 0 10px;
+  background: transparent;
+  color: white;
+  /* font-weight: lighter; */
+  font-family: 'Helvetica Neue';
+  font-size: 12px;
+}
+
+.navbar-urlbox-input::-moz-selection {
+  background-color: rgba(238,233,213,0.2);
+}
+
+
+.navbar-urlbox-prettyurl {
+  padding: 0 0 0 10px;
+}
+
+.navbar-urlbox-prettyurl-protocol {
+  color: #29CC41;
+}
+
+.navbar-urlbox-prettyurl-path {
+  color: rgba(238,233,213,0.6);
+}
