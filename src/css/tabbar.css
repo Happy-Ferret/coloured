@@ -47,7 +47,7 @@
   width: 150px;
   height: 24.5px;
   position: relative;
-  transition: color 50ms linear;
+  /* transition: color 50ms linear; FIXME: break color switching in servo */
   -moz-user-select: none;
   cursor: default;
 }
