@@ -1,47 +1,40 @@
 'use strict';
 
-const h =                       require('virtual-dom/h');
-const diff =                    require('virtual-dom/diff');
-const patch =                   require('virtual-dom/patch');
-const createElement =           require('virtual-dom/create-element');
-const Delegator =               require('dom-delegator'); // FIXME: REMOVE?
-const {TabTree} =               require('./tabtree');
-const OS =                      require('./os');
-const {RegisterKeyBindings} =   require('./keybindings');
-const {read:guessURL} =         require('./url-helper');
-const {$} =                     require('./dollar');
+const h = require('virtual-dom/h');
+const diff = require('virtual-dom/diff');
+const patch = require('virtual-dom/patch');
+const createElement = require('virtual-dom/create-element');
+const Delegator = require('dom-delegator'); // FIXME: REMOVE?
+const {TabTree} = require('./tabtree');
+const OS = require('./os');
+const {RegisterKeyBindings} = require('./keybindings');
+const {read:guessURL} = require('./url-helper');
+const {$} = require('./dollar');
 
 const LOG_RENDER_TIME = true;
 
 function init() {
   var tabtree = new TabTree($('.iframes'));
-
+  setupGlobalKeybindings(tabtree);
   var vtree = renderToolbox(tabtree);
   var vnode = createElement(vtree);
   var vdom  = { vtree, vnode, DOMUpdateScheduled: false };
-
   $('.toolbox-container').appendChild(vdom.vnode);
-
   tabtree.on('tree-layout-changed', () => scheduleDOMUpdate(tabtree, vdom));
   tabtree.on('selected-tab-changed', () => scheduleDOMUpdate(tabtree, vdom));
   tabtree.on('tab-update', () => scheduleDOMUpdate(tabtree, vdom));
-
-  setupGlobalKeybindings(tabtree);
 }
 
-init();
-
 function onInputKeyUp(e, tabtree) {
-  var input = $('.navbar-urlbox-input');
-    if (e.keyCode == 27) { // Escape
-      
-      tabtree.getSelectedTab().userInputFocused = false;
-    }
-    if (e.keyCode == 13) { // Enter
-      var url = guessURL(input.value);
-      tabtree.getSelectedTab().setLocation(url);
-      input.blur();
-    }
+  if (e.keyCode == 27) { // Escape
+    tabtree.getSelectedTab().userInputFocused = false;
+  }
+  if (e.keyCode == 13) { // Enter
+    var url = guessURL(e.currentTarget.value);
+    var tab = tabtree.getSelectedTab();
+    tab.setLocation(url);
+    tab.userInputFocused = false;
+  }
 }
 
 function focusAndSelectInput(tabtree) {
@@ -68,7 +61,7 @@ function scheduleDOMUpdate(tabtree, vdom) {
       if (tab.userInputFocused) {
         $('.navbar-urlbox-input').focus();
       } else {
-        $('.navbar-urlbox-input'.blur();
+        $('.navbar-urlbox-input').blur();
       }
 
       var s1 = window.performance.now();
@@ -151,9 +144,9 @@ function renderNavbar(tabtree) {
 
   var urlStr = tab.location;
 
-  var protocol = 'a';
-  var hostname = 'b';
-  var path = 'c';
+  var protocol = '';
+  var hostname = '';
+  var path = '';
 
   if (urlStr) {
     var urlObj = new URL(urlStr);
@@ -175,7 +168,7 @@ function renderNavbar(tabtree) {
         onfocus: () => tabtree.getSelectedTab().userInputFocused = true,
         onkeyup: (e) => onInputKeyUp(e, tabtree),
         type: 'text',
-        value: 'abc'
+        value: ''
       }),
       h('p.navbar-urlbox-prettyurl', [
         h('span.navbar-urlbox-prettyurl-protocol', protocol),
@@ -197,7 +190,7 @@ function setupGlobalKeybindings(tabtree) {
   if (OS == 'x11' || OS == 'win') {
     RegisterKeyBindings(
       ['Ctrl',          'l',          () => focusAndSelectInput(tabtree)],
-      ['Ctrl',          't',          () => tabtree.addTab({selected: true})],
+      ['Ctrl',          't',          () => tabtree.addTab({selected: true, userInputFocused: true})],
       ['Ctrl',          'r',          () => tabtree.getSelectedTab().reload()],
       ['Alt',           'Left',       () => tabtree.getSelectedTab().goBack()],
       ['Alt',           'Right',      () => tabtree.getSelectedTab().goForward()],
@@ -211,7 +204,7 @@ function setupGlobalKeybindings(tabtree) {
   if (OS == 'mac') {
     RegisterKeyBindings(
       ['Cmd',       'l',              () => focusAndSelectInput(tabtree)],
-      ['Cmd',       't',              () => tabtree.addTab({selected: true})],
+      ['Cmd',       't',              () => tabtree.addTab({selected: true, userInputFocused: true})],
       ['Cmd',       'r',              () => tabtree.getSelectedTab().reload()],
       ['Cmd',       'Left',           () => tabtree.getSelectedTab().goBack()],
       ['Cmd',       'Right',          () => tabtree.getSelectedTab().goForward()],
@@ -229,3 +222,5 @@ function enableDevtools() {
     "debugger.remote-mode": "adb-devtools",
   });
 }
+
+init();

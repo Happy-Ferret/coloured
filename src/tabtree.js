@@ -5,8 +5,6 @@ const AllOff = require('event-emitter/all-off');
 const {getFallback, getBestIcon} = require('./favicon');
 const OS = require('./os');
 
-const IS_PRIVILEGED = !!HTMLIFrameElement.prototype.setVisible;
-
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
 
@@ -90,6 +88,10 @@ TabTree.prototype = {
     var tab = new Tab(this._parentDOMNode, {
       frameElement: options.frameElement, // FIXME: test if frameElement actually works
     });
+
+    if (options.userInputFocused) {
+      tab.userInputFocused = true;
+    }
     
     var treeNode = new TreeNode(tab);
 
@@ -320,16 +322,12 @@ Tab.prototype = {
 
   _show() {
     this._div.classList.add('tabiframe-visible');
-    if (IS_PRIVILEGED && this._innerIframe) {
-      this._innerIframe.setVisible(true);
-    }
+    safeIframeCall(this._innerIframe, 'setVisible', true)
   },
 
   _hide() {
     this._div.classList.remove('tabiframe-visible');
-    if (IS_PRIVILEGED && this._innerIframe) {
-      this._innerIframe.setVisible(false);
-    }
+    safeIframeCall(this._innerIframe, 'setVisible', false)
   },
 
   setLocation(url) {
@@ -337,11 +335,7 @@ Tab.prototype = {
     if (!this._innerIframe) {
       this._createInnerIframe();
     }
-    if (IS_PRIVILEGED) {
-      this._innerIframe.src = url;
-    } else {
-      this._innerIframe.src = 'tab:,' + url;
-    }
+    this._innerIframe.src = url;
   },
 
   zoomIn() {
@@ -362,30 +356,25 @@ Tab.prototype = {
   },
 
   reload() {
-    if (this._innerIframe) {
-      this._innerIframe.reload();
-    }
+    safeIframeCall(this._innerIframe, 'reload')
   },
 
   stop() {
-    if (this._innerIframe) {
-      this._innerIframe.stop();
-    }
+    safeIframeCall(this._innerIframe, 'stop')
   },
 
   goBack() {
-    if (this._innerIframe) {
-      this._innerIframe.goBack();
-    }
+    safeIframeCall(this._innerIframe, 'goBack')
   },
 
   goForward() {
-    if (this._innerIframe) {
-      this._innerIframe.goForward();
-    }
+    safeIframeCall(this._innerIframe, 'goForward')
   },
 
   canGoBack() {
+    // FIXME: should not be a promise. This should be updated
+    // when getting the location update
+    /*
     return new Promise((resolve, reject) => {
       if (!this._innerIframe) {
         return resolve(false);
@@ -394,9 +383,11 @@ Tab.prototype = {
         return resolve(r.target.result);
       };
     });
+   */
   },
 
   canGoForward() {
+    /* FIXME see canGoBack
     return new Promise((resolve, reject) => {
       if (!this._innerIframe) {
         return resolve(false);
@@ -405,12 +396,11 @@ Tab.prototype = {
         return resolve(r.target.result);
       };
     });
+   */
   },
 
   focus() {
-    if (this._innerIframe) {
-      this._innerIframe.focus();
-    }
+    safeIframeCall(this._innerIframe, 'focus')
   },
 
   get empty() {
@@ -485,9 +475,7 @@ Tab.prototype = {
   },
 
   _applyZoom() {
-    if (this._innerIframe && IS_PRIVILEGED) {
-      this._innerIframe.zoom(this._zoom);
-    }
+    safeIframeCall(this._innerIframe, 'zoom', this._zoom)
   },
 
   _clearTabtab() {
@@ -691,4 +679,14 @@ TreeNode.prototype = {
     return this;
   },
 
+}
+
+function safeIframeCall(iframe, method, ...args) {
+  if (iframe) {
+    if (iframe[method]) {
+      return iframe[method](...args);
+    } else {
+      console.warn(`WARNING: Browser API ${method} method not available`);
+    }
+  }
 }
