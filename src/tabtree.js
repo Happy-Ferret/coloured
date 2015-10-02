@@ -8,7 +8,7 @@ const OS = require('./os');
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
 
-const HOMEPAGE = 'http://mozilla.com';
+const HOMEPAGE = 'http://google.com';
 
 function TabTree(parentDOMNode) {
   EventEmitter(this);
@@ -333,9 +333,12 @@ Tab.prototype = {
   setLocation(url) {
     this._location = url;
     if (!this._innerIframe) {
-      this._createInnerIframe();
+      // Because of a servo bug (#7826), we need to
+      // set the src when the iframe is created
+      this._createInnerIframe(null, url);
+    } else {
+      this._innerIframe.src = url;
     }
-    this._innerIframe.src = url;
   },
 
   zoomIn() {
@@ -453,7 +456,7 @@ Tab.prototype = {
     return this._securityExtendedValidation;
   },
 
-  _createInnerIframe(iframe) {
+  _createInnerIframe(iframe, url) {
 
     if (!iframe) {
       iframe = document.createElement('iframe');
@@ -463,6 +466,9 @@ Tab.prototype = {
     iframe.setAttribute('remote', 'true');
     iframe.setAttribute('mozallowfullscreen', 'true');
     iframe.setAttribute('tabindex', '-1');
+    if (url) {
+      iframe.setAttribute('src', url);
+    }
 
     this._div.appendChild(iframe);
 
