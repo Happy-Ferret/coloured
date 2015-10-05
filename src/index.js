@@ -26,14 +26,16 @@ function init() {
 }
 
 function onInputKeyUp(e, tabtree) {
+  var input = e.currentTarget;
+  var tab = tabtree.getSelectedTab(); // FIXME: slow
   if (e.keyCode == 27) { // Escape
-    tabtree.getSelectedTab().userInputFocused = false;
-  }
-  if (e.keyCode == 13) { // Enter
-    var url = guessURL(e.currentTarget.value);
-    var tab = tabtree.getSelectedTab();
+    tab.userInputFocused = false;
+  } else if (e.keyCode == 13) { // Enter
+    var url = guessURL(input.value);
     tab.setLocation(url);
     tab.userInputFocused = false;
+  } else {
+    tab.userInput = input.value;
   }
 }
 
@@ -58,11 +60,13 @@ function scheduleDOMUpdate(tabtree, vdom) {
       // After DOM update. Things we don't want to do with
       // the virtual DOM
       var tab = tabtree.getSelectedTab();
+      var input = $('.navbar-urlbox-input');
       if (tab.userInputFocused) {
-        $('.navbar-urlbox-input').focus();
+        input.focus();
       } else {
-        $('.navbar-urlbox-input').blur();
+        input.blur();
       }
+      input.value = tab.userInput;
 
       var s1 = window.performance.now();
       if (LOG_RENDER_TIME) {
@@ -146,19 +150,21 @@ function renderNavbar(tabtree) {
 
   var protocol = '';
   var hostname = '';
-  var path = '';
+  var rest = '';
 
   if (urlStr) {
     var urlObj = new URL(urlStr);
     protocol = urlObj.protocol + '//';
     hostname = urlObj.hostname;
-    path = urlObj.path;
+    rest = urlObj.pathname + urlObj.search + urlObj.hash;
+  } else {
+    rest = tab.userInput;
   }
 
   return h('div.navbar', [
-    h('span.navbar-button', '\uF2CA'),
-    h('span.navbar-button', '\uF30F'),
-    h('span.navbar-button', '\uF3A8'),
+    h('span.navbar-button', { onclick: () => tabtree.getSelectedTab().goBack() }, '\uF2CA'),
+    h('span.navbar-button', { onclick: () => tabtree.getSelectedTab().goForward() }, '\uF30F'),
+    h('span.navbar-button', { onclick: () => tabtree.getSelectedTab().reload() }, '\uF3A8'),
     h('div.navbar-urlbox', {
       className: tab.userInputFocused ? 'input-focused' : '',
       onclick: () => focusAndSelectInput(tabtree),
@@ -168,12 +174,11 @@ function renderNavbar(tabtree) {
         onfocus: () => tabtree.getSelectedTab().userInputFocused = true,
         onkeyup: (e) => onInputKeyUp(e, tabtree),
         type: 'text',
-        value: ''
       }),
       h('p.navbar-urlbox-prettyurl', [
         h('span.navbar-urlbox-prettyurl-protocol', protocol),
         h('span.navbar-urlbox-prettyurl-hostname', hostname),
-        h('span.navbar-urlbox-prettyurl-path', path),
+        h('span.navbar-urlbox-prettyurl-pathname', rest),
       ])
     ]),
     h('span.navbar-button', '\uF442'),

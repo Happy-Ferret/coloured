@@ -125,10 +125,22 @@ TabTree.prototype = {
 
   dropTabAndChildren: function(tab) {
     var node = this._getTreeNode(tab);
+    if (node.isRoot()) {
+      throw new Error("Can't drop root node");
+    }
 
-    // FIXME: should use getNextTab
     if (node.find(n => n.tab.selected)) {
-      this.selectTab(node.lastNode().nextNode().tab);
+      var nextNode = node.lastNode().nextNode();
+      if (nextNode) {
+        this.selectTab(nextNode.tab);
+      } else {
+        var prevNode = node.prevNode();
+        if (!prevNode) {
+          // We need at least one tab left
+          return;
+        }
+        this.selectTab(prevNode.tab);
+      }
     }
 
     node.detach();
@@ -146,7 +158,17 @@ TabTree.prototype = {
     }
 
     if (tab.selected) {
-      this.selectTab(node.nextNode().tab);
+      var nextNode = node.nextNode();
+      if (nextNode) {
+        this.selectTab(nextNode.tab);
+      } else {
+        var prevNode = node.prevNode();
+        if (!prevNode) {
+          // We need at least one tab left
+          return;
+        }
+        this.selectTab(prevNode.tab);
+      }
     }
 
     var count = node.children.length;
@@ -511,8 +533,8 @@ Tab.prototype = {
         this._title = e.detail;
         break;
       case 'mozbrowserlocationchange':
-        this.userInput = '';
         this._location = e.detail;
+        this.userInput = this._location;
         break;
       case 'mozbrowsericonchange':
         var {bestIcon, faviconURL} = getBestIcon([e.detail, this._bestIcon]);
@@ -603,7 +625,7 @@ TreeNode.prototype = {
     // FIXME ugly like hell
     var justPassedBy = false;
     return this.root.find(n => {
-      if (justPassedBy) {
+      if (justPassedBy && !n.isRoot()) {
         return true;
       }
       if (n === this) {
@@ -616,7 +638,7 @@ TreeNode.prototype = {
     // FIXME ugly like hell
     var justPassedBy = false;
     return this.root.findReverse(n => {
-      if (justPassedBy) {
+      if (justPassedBy && !n.isRoot()) {
         return true;
       }
       if (n === this) {
@@ -690,9 +712,13 @@ TreeNode.prototype = {
 function safeIframeCall(iframe, method, ...args) {
   if (iframe) {
     if (iframe[method]) {
-      return iframe[method](...args);
+      try {
+        return iframe[method](...args);
+      } catch(e) {
+        console.warn(`WARNING: Browser API method (${method}) error: ${e}`);
+      }
     } else {
-      console.warn(`WARNING: Browser API ${method} method not available`);
+      console.warn(`WARNING: Browser API method (${method}) not available`);
     }
   }
 }

@@ -8,11 +8,14 @@
 
 .tab-shadow {
   position: absolute;
-  top: 11.5px;
   left: 0;
   width: 150px;
   transition: transform 100ms linear;
   will-change: transform;
+  /* FIXME: For some reason I still don't understand, servo paints this div 0.5px too low
+   * setting top to 11px properly draws at 11px, 11.5px (the value we want) draws at 12px,
+   */
+  top: 11.5px;
 }
 
 .tab-shadow-start,

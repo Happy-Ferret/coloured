@@ -16,11 +16,47 @@
 
   <body>
 
+    <script>
+      document.documentElement.addEventListener('keyup', e => {
+        if (e.keyCode == 82) {
+          location.reload();
+        }
+      });
+    </script>
+
     <div class='toolbox-container'></div>
 
     <div class='iframes'></div>
 
     <script src='index.js'></script>
+
+    <!-- <div id='debug'> -->
+    <!--   <style> -->
+    <!--     #debug div { -->
+    <!--       width: 100px; -->
+    <!--       height: 100px; -->
+    <!--       background: red; -->
+    <!--       position: absolute; -->
+    <!--     } -->
+
+    <!--     #a { -->
+    <!--       top: 10px; -->
+    <!--       left: 100.5px; -->
+    <!--     } -->
+
+    <!--     #b { -->
+    <!--       top: 10px; -->
+    <!--       left: 0; -->
+    <!--     } -->
+    <!--   </style> -->
+
+    <!--   <div id='a'> -->
+    <!--   </div> -->
+
+    <!--   <div id='b'> -->
+    <!--   </div> -->
+
+    <!-- </div> -->
 
   </body>
 
