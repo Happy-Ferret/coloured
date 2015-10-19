@@ -18,7 +18,7 @@
 
     <script>
       document.documentElement.addEventListener('keyup', e => {
-        if (e.keyCode == 82) {
+        if (e.keyCode == 82 && e.ctrlKey) {
           location.reload();
         }
       });
