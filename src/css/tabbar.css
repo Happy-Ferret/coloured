@@ -2,7 +2,7 @@
   width: 100vw;
   height: 36px;
   padding-top: 11.5px;
-  width: 100%;
+  width: calc(100% - 70px);
   height: 24.5px;
   padding-left: 70px;
 }
