@@ -8,8 +8,6 @@ const OS = require('./os');
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
 
-const HOMEPAGE = 'http://google.com';
-
 function TabTree(parentDOMNode) {
   EventEmitter(this);
   this._root = new TreeNode();
@@ -49,7 +47,9 @@ TabTree.prototype = {
 
   restoreSession: function() {
     // FIXME
-    this.addTab({url: HOMEPAGE});
+    this.addTab({url: 'http://google.com'});
+    this.addTab({url: 'https://news.ycombinator.com'});
+    this.addTab({url: 'http://firefox.com'});
     return;
   },
 
