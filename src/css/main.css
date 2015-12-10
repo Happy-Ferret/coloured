@@ -35,7 +35,7 @@ body {
 
 .tabiframe:not(.tabiframe-visible) {
   pointer-events: none;
-  visibility: hidden;
+  /* visibility: hidden; FIXME: https://github.com/glennw/webrender/issues/116 */
   opacity: 0;
 }
 
@@ -43,7 +43,7 @@ body {
 }
 
 .tabiframe:not(.tabiframe-visible) > iframe {
-  display: none;
+  /* display: none; FIXME: https://github.com/glennw/webrender/issues/116 */
 }
 
 iframe {
