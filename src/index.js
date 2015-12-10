@@ -10,6 +10,9 @@ const OS = require('./os');
 const {RegisterKeyBindings} = require('./keybindings');
 const {read:guessURL} = require('./url-helper');
 const {$} = require('./dollar');
+const {Logs} = require('./logs');
+
+Logs.log("start");
 
 const LOG_RENDER_TIME = true;
 
@@ -70,7 +73,7 @@ function scheduleDOMUpdate(tabtree, vdom) {
 
       var s1 = window.performance.now();
       if (LOG_RENDER_TIME) {
-        console.log("rendering: " + Math.round(s1 - s0) + "ms");
+        Logs.renderingTime(s1 - s0);
       }
     });
     vdom.DOMUpdateScheduled = true;

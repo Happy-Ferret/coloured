@@ -4,6 +4,7 @@ const EventEmitter = require('event-emitter');
 const AllOff = require('event-emitter/all-off');
 const {getFallback, getBestIcon} = require('./favicon');
 const OS = require('./os');
+const {Logs} = require('./logs');
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
@@ -517,7 +518,7 @@ Tab.prototype = {
 
   handleEvent(e) {
 
-    // console.log('TABEVENT', e.type);
+    Logs.log('TABEVENT: ' + e.type);
 
     var somethingChanged = true;
 
@@ -715,10 +716,10 @@ function safeIframeCall(iframe, method, ...args) {
       try {
         return iframe[method](...args);
       } catch(e) {
-        console.warn(`WARNING: Browser API method (${method}) error: ${e}`);
+        Logs.log(`WARNING: Browser API method (${method}) error: ${e}`, 'warn');
       }
     } else {
-      console.warn(`WARNING: Browser API method (${method}) not available`);
+      Logs.log(`WARNING: Browser API method (${method}) not available`, 'warn');
     }
   }
 }

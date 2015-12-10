@@ -1,0 +1,47 @@
+.notab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 72px);
+  box-sizing: border-box;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  overflow: hidden;
+  color: black;
+}
+
+#logs {
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+}
+
+#logs > li::before {
+  content: "> ";
+}
+
+#logs > li:not(.log) {
+  color: #F00;
+}
+
+#rendering-time {
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+
+#rendering-time > li.warn {
+  font-size: 200%;
+  color: #F00;
+}
+
+#rendering-time > li::after {
+  content: "ms";
+  font-size: 50%;
+}
