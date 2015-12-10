@@ -16,7 +16,6 @@
   cursor: default;
   margin: 3px;
   border-radius: 100%;
-  transition: background-color 150ms ease;
 }
 
 .navbar-button:hover {
