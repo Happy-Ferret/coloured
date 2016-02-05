@@ -48,9 +48,7 @@ TabTree.prototype = {
 
   restoreSession: function() {
     // FIXME
-    this.addTab({url: 'http://google.com'});
-    this.addTab({url: 'https://news.ycombinator.com'});
-    this.addTab({url: 'http://firefox.com'});
+    this.addTab({url: 'https://encrypted.google.com'});
     return;
   },
 
