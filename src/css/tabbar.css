@@ -57,12 +57,12 @@
 }
 
 .tab-shadow-start {
-  background-image: url(a.png);
+  background-image: url(border-left-coloured.png);
   left: 0;
 }
 
 .tab-shadow-end {
-  background-image: url(b.png);
+  background-image: url(border-right-coloured.png);
   right: 0;
 }
 

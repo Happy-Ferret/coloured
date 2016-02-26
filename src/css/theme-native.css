@@ -1,0 +1,75 @@
+body {
+  color: #4a4a4a;
+}
+
+.toolbox {
+  background-image: linear-gradient(to bottom, #f1f1f1, #d9d9d9);
+}
+
+.navbar {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, #ededed, #dddddd);
+  box-shadow: inset 0 0.5px 0px 0 #979797, inset 0 1px 0px 0 #fff, inset 0 -0.5px 0px 0 #979797;
+}
+
+.navbar-button {
+  border-radius: 3px;
+}
+
+.navbar-button:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+.navbar-urlbox {
+  border-radius: 3px;
+  background-color: white;
+  background-image: initial;
+}
+
+.navbar-urlbox.input-focused {
+  box-shadow: 0 0 0 2px #93c0ee;
+  border-color: #93c0ee;
+}
+
+.navbar-urlbox-input {
+  color: initial;
+}
+
+
+.navbar-urlbox-input::-moz-selection {
+  background-color: initial;
+}
+
+.navbar-urlbox-prettyurl-pathname {
+  color: #AAA;
+}
+
+.tab-shadow-start,
+.tab-shadow-end {
+  height: 26px;
+}
+
+.tab-shadow-middle {
+  height: 26px;
+  background-color: initial;
+  background-image: linear-gradient(to bottom, #f8f8f8, #ececec);
+  box-shadow: inset 0 0.5px 0px 0 #979797, inset 0 1px 0px 0 #fff;
+}
+
+
+.tab-shadow-start {
+  background-image: url(border-left-native.png);
+}
+
+.tab-shadow-end {
+  background-image: url(border-right-native.png);
+}
+
+
+.tab:not(.selected) {
+  color: initial;
+}
+
+.navbar-urlbox-prettyurl-protocol {
+  color: #AAA;
+}

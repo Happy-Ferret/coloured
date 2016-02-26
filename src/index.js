@@ -16,6 +16,9 @@ Logs.log("start");
 
 const LOG_RENDER_TIME = true;
 
+var native_theme = false;
+const NATIVE_THEME_URL = "./css/theme-native.css";
+
 function init() {
   var tabtree = new TabTree($('.iframes'));
   setupGlobalKeybindings(tabtree);
@@ -192,7 +195,16 @@ function renderNavbar(tabtree) {
       ])
     ]),
     h('span.navbar-button', '\uF442'),
-    h('span.navbar-button', '\uF397'),
+    h('span.navbar-button', {
+      onclick: () => {
+        native_theme = !native_theme;
+        if (native_theme) {
+          document.querySelector("#theme").href = NATIVE_THEME_URL;
+        } else {
+          document.querySelector("#theme").href = "";
+        }
+      },
+    },'\uF397'),
   ]);
 }
 
