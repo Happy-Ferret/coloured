@@ -79,6 +79,10 @@
 }
 
 .navbar-urlbox-prettyurl-protocol {
+  color: rgba(238,233,213,0.6);
+}
+
+.navbar-urlbox.security-state-secure .navbar-urlbox-prettyurl-protocol {
   color: #29CC41;
 }
 

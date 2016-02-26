@@ -169,7 +169,7 @@ function renderNavbar(tabtree) {
     h('span.navbar-button', { onclick: () => tabtree.getSelectedTab().goForward() }, '\uF30F'),
     h('span.navbar-button', { onclick: () => tabtree.getSelectedTab().reload() }, '\uF3A8'),
     h('div.navbar-urlbox', {
-      className: tab.userInputFocused ? 'input-focused' : '',
+      className: (tab.userInputFocused ? 'input-focused' : '') + ' security-state-' + tab.securityState,
       onclick: () => focusAndSelectInput(tabtree),
     }, [
       h('input.navbar-urlbox-input', {

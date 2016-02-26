@@ -544,8 +544,12 @@ Tab.prototype = {
         this._loading = false;
         break;
       case 'mozbrowsersecuritychange':
-        this._securityState = e.detail.state;
-        this._securityExtendedValidation = e.detail.extendedValidation;
+        if (e.detail.state) {
+          this._securityState = e.detail.state;
+          this._securityExtendedValidation = e.detail.extendedValidation;
+        } else {
+          this._securityState = e.detail;
+        }
         break;
       default:
         somethingChanged = false;
