@@ -48,6 +48,7 @@ body {
 
 .tabiframe:not(.tabiframe-visible) > iframe {
   /* display: none; FIXME: https://github.com/glennw/webrender/issues/116 */
+  display: none;
 }
 
 iframe {
