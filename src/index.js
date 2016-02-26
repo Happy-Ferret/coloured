@@ -90,6 +90,7 @@ function renderTabbar(tabtree) {
   var children = [];
   var sIdx = 0;
   var foundSelected = false;
+
   tabtree.root.walk(n => {
     if (!n.tab) return; // root
     var tab = n.tab;
@@ -123,6 +124,12 @@ function renderTabbar(tabtree) {
     }
   });
 
+  var controls = h('div.window-controls', [
+    h('div.window-control.window-controls-close'),
+    h('div.window-control.window-controls-min'),
+    h('div.window-control.window-controls-max'),
+  ]);
+
   var shadowTab = h('div', {
     style: {
       transform: `translateX(${150 * sIdx}px)`
@@ -134,7 +141,7 @@ function renderTabbar(tabtree) {
     h('div.tab-shadow-end'),
   ])
 
-  return h('div.tabbar', [shadowTab, ...children]);
+  return h('div.tabbar', [controls, shadowTab, ...children]);
 }
 
 function onTabClicked(e, tabtree) {
