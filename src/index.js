@@ -125,9 +125,9 @@ function renderTabbar(tabtree) {
   });
 
   var controls = h('div.window-controls', [
-    h('div.window-control.window-controls-close'),
-    h('div.window-control.window-controls-min'),
-    h('div.window-control.window-controls-max'),
+    h('div.window-control.window-control-close'),
+    h('div.window-control.window-control-min'),
+    h('div.window-control.window-control-max'),
   ]);
 
   var shadowTab = h('div', {
