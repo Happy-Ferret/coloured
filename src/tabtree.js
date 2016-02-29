@@ -48,7 +48,8 @@ TabTree.prototype = {
 
   restoreSession: function() {
     // FIXME
-    this.addTab({url: 'https://encrypted.google.com'});
+    // this.addTab({url: 'https://encrypted.google.com'});
+    this.addTab({url: 'http://paulrouget.com/bhtml-servo-issues/'});
     return;
   },
 

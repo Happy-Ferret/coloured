@@ -16,7 +16,7 @@ Logs.log("start");
 
 const LOG_RENDER_TIME = true;
 
-var native_theme = false;
+var native_theme = true;
 const NATIVE_THEME_URL = "./css/theme-native.css";
 
 function init() {
@@ -41,7 +41,7 @@ function onInputKeyUp(e, tabtree) {
     tab.setLocation(url);
     tab.userInputFocused = false;
   } else {
-    tab.userInput = input.value;
+    // tab.userInput = input.value;
   }
 }
 
