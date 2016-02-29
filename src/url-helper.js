@@ -63,7 +63,7 @@ const isNotURL = input => {
 }
 
 const readSearchURL = input =>
-  `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
+  `https://www.bing.com/search?q=${encodeURIComponent(input)}`;
 
 const readAboutURL = input =>
   input === 'about:blank' ? input :
