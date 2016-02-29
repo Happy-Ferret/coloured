@@ -87,7 +87,7 @@
   line-height: 24.5px;
   vertical-align: middle;
   width: 100%;
-  padding: 0 30px;
+  padding: 0 30px 0 34px;
   box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,13 +107,21 @@
   opacity: 0;
 }
 
-.tab-favicon {
+.tab-favicon-wrapper {
   position: absolute;
   top: calc(24.5px / 2 - 8px);
-  left: 12px;
+  left: 16px;
   width: 16px;
   height: 16px;
   pointer-events: none;
+  border-radius: 3px;
+}
+
+.tab-favicon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background-size: 100% 100%;
 }
 
 .tab-spinner {

@@ -62,7 +62,7 @@ gulp.task('server', function() {
     root: path.join(module.filename, '../dist'),
     cache: 0
   }));
-  server.listen(6060);
+  server.listen(6061);
 });
 
 gulp.task('default',      ['build']);

@@ -113,7 +113,10 @@ function renderTabbar(tabtree) {
     }, [
       tab.loading ?
         h('div.tab-spinner', '\uf29C') :
-        h('img.tab-favicon', {src: tab.favicon, alt: ''}),
+        h('div.tab-favicon-wrapper', [h('div.tab-favicon', {
+          style: {
+            backgroundImage: 'url(' + tab.favicon + ')'
+          }, alt: ''})]),
       h('span.tab-title', title),
       h('span.tab-close', '\uf2d7'),
     ]));
