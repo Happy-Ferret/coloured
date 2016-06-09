@@ -48,8 +48,8 @@ function scheduleDOMUpdate(model, vdom) {
 
 function renderLogs(Logs) {
   return h("div", [
-    h('ul#logs', Logs._logs.map(log => h("li", {className: log.level}, log.value))),
-    h('ul#rendering-time', Logs._times.map(t => h("li", {className: t.warn ? "warn":""}, t.value))),
+    // h('ul#logs', Logs._logs.map(log => h("li", {className: log.level}, log.value))),
+    // h('ul#rendering-time', Logs._times.map(t => h("li", {className: t.warn ? "warn":""}, t.value))),
   ]);
 }
 

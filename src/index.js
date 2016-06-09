@@ -19,6 +19,8 @@ const LOG_RENDER_TIME = true;
 var native_theme = true;
 const NATIVE_THEME_URL = "./css/theme-native.css";
 
+window.addEventListener("load", init);
+
 function init() {
   var tabtree = new TabTree($('.iframes'));
   setupGlobalKeybindings(tabtree);
@@ -41,21 +43,21 @@ function onInputKeyUp(e, tabtree) {
     tab.setLocation(url);
     tab.userInputFocused = false;
   } else {
-    // tab.userInput = input.value;
+    console.log("x: " + input.value);
+    tab.userInput = input.value;
   }
 }
 
 function focusAndSelectInput(tabtree) {
   tabtree.getSelectedTab().userInputFocused = true;
   var input = $('.navbar-urlbox-input');
-  if (input.setSelectionRange) { // Servo doesn't support it yet
-    input.setSelectionRange(0, input.value.length);
-  }
+  input.setSelectionRange(0, input.value.length);
 }
 
 function scheduleDOMUpdate(tabtree, vdom) {
   if (!vdom.DOMUpdateScheduled) {
     requestAnimationFrame(function() {
+      console.log("DOMUpdateScheduled");
       var s0 = window.performance.now();
       vdom.DOMUpdateScheduled = false;
       var newTree = renderToolbox(tabtree);
@@ -72,7 +74,10 @@ function scheduleDOMUpdate(tabtree, vdom) {
       } else {
         input.blur();
       }
-      input.value = tab.userInput;
+      if (input.value != tab.userInput) {
+        // Necessary to avoid Servo clearing selection
+        input.value = tab.userInput;
+      }
 
       var s1 = window.performance.now();
       if (LOG_RENDER_TIME) {
@@ -252,5 +257,3 @@ function enableDevtools() {
     "debugger.remote-mode": "adb-devtools",
   });
 }
-
-init();

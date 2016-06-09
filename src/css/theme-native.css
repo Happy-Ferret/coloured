@@ -27,7 +27,7 @@ body {
 }
 
 .navbar-urlbox.input-focused {
-  box-shadow: 0 0 0 2px #93c0ee;
+  /* fixme: not working */
   border-color: #93c0ee;
 }
 

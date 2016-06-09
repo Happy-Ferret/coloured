@@ -49,7 +49,8 @@ TabTree.prototype = {
   restoreSession: function() {
     // FIXME
     // this.addTab({url: 'https://encrypted.google.com'});
-    this.addTab({url: 'http://paulrouget.com/bhtml-servo-issues/'});
+    // this.addTab({url: 'http://wikipedia.org'});
+    this.addTab({url: 'http://firefox.com'});
     return;
   },
 
@@ -533,7 +534,7 @@ Tab.prototype = {
         this._title = e.detail;
         break;
       case 'mozbrowserlocationchange':
-        this._location = e.detail;
+        this._location = e.detail.url || e.detail.uri || e.detail;
         this.userInput = this._location;
         break;
       case 'mozbrowsericonchange':

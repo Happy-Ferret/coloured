@@ -39,6 +39,9 @@
 .navbar-urlbox.input-focused {
   /* FIXME: https://github.com/glennw/webrender/issues/105  */
   /* box-shadow: inset 0 0 0 2px #FDF7E4; */
+  border: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .navbar-urlbox-input,
@@ -50,6 +53,7 @@
   height: 100%;
   margin: 0;
   width: 100%;
+  padding: 0 0 0 10px;
 }
 
 .navbar-urlbox:not(.input-focused) > .navbar-urlbox-input,
@@ -61,21 +65,17 @@
 .navbar-urlbox-input {
   border-width: 0;
   -moz-appearance: none;
-  padding: 0 0 0 10px;
   background: transparent;
   color: white;
   /* font-weight: lighter; */
   font-family: 'Helvetica Neue';
   font-size: 12px;
+  padding-top: 1.5px; /* fixme; servo issue? */
 }
 
-.navbar-urlbox-input::-moz-selection {
-  background-color: rgba(238,233,213,0.2);
-}
-
-
-.navbar-urlbox-prettyurl {
-  padding: 0 0 0 10px;
+.navbar-urlbox-input::selection {
+  color: black;
+  background: rgb(176, 214, 255);
 }
 
 .navbar-urlbox-prettyurl-protocol {
