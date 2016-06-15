@@ -70,9 +70,9 @@ function scheduleDOMUpdate(tabtree, vdom) {
       var tab = tabtree.getSelectedTab();
       var input = $('.navbar-urlbox-input');
       if (tab.userInputFocused) {
-        input.focus();
+        // input.focus();
       } else {
-        input.blur();
+        // input.blur();
       }
       if (input.value != tab.userInput) {
         // Necessary to avoid Servo clearing selection
